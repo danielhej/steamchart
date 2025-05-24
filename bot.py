@@ -1,8 +1,14 @@
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import ApplicationBuilder, InlineQueryHandler, MessageHandler, filters, CommandHandler
+from dotenv import load_dotenv
+import os
 import requests
 from uuid import uuid4
 import re
+
+
+load_dotenv()
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 def search_steam_games(query):
     url = f"https://store.steampowered.com/api/storesearch/?term={query}&cc=us&l=en"
@@ -95,7 +101,7 @@ async def start(update, context):
     )
 
 if __name__ == '__main__':
-    app = ApplicationBuilder().token("8125395475:AAHXI592ieY66LEdQIyRYoo3Hd815UfeJYw").build()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(InlineQueryHandler(inline_query))
